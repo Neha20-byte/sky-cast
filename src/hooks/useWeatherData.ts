@@ -375,7 +375,11 @@ export function useWeatherAlerts() {
       // Wind alerts
       if (windSpeed > 25) {
         cityAlerts.push('Strong wind');
-        level = level === 'warning' ? 'warning' : 'watch';
+        if (level === 'warning') {
+          // keep warning
+        } else {
+          level = 'watch';
+        }
       }
 
       // Weather condition alerts
@@ -384,13 +388,21 @@ export function useWeatherAlerts() {
         level = 'warning';
       } else if (condition === 'snow' && temp < 0) {
         cityAlerts.push('Snow conditions');
-        level = level === 'warning' ? 'warning' : 'advisory';
+        if (level === 'warning') {
+          // keep warning
+        } else {
+          level = 'advisory';
+        }
       }
 
       // AQI alerts
       if (aqi > 150) {
         cityAlerts.push('Poor air quality');
-        level = level === 'warning' ? 'warning' : 'advisory';
+        if (level === 'warning') {
+          // keep warning
+        } else {
+          level = 'advisory';
+        }
       }
 
       if (cityAlerts.length > 0) {
