@@ -75,29 +75,36 @@ export function WeatherApp() {
     return 'weather-grid';
   };
 
+  // Get current weather conditions for background
+  const getCurrentWeatherConditions = useCallback(() => {
+    if (cities.length > 0) {
+      const firstCityWeather = cityWeather.get(cities[0].id);
+      if (firstCityWeather) {
+        return {
+          condition: firstCityWeather.current.weather[0].main,
+          timestamp: firstCityWeather.current.timestamp,
+          timezone: firstCityWeather.current.timezone,
+          sunrise: firstCityWeather.current.sunTimes.sunrise,
+          sunset: firstCityWeather.current.sunTimes.sunset,
+        };
+      }
+    }
+    return {
+      condition: 'clear',
+      timestamp: Date.now() / 1000,
+    };
+  }, [cities, cityWeather]);
+
+  const weatherConditions = getCurrentWeatherConditions();
+
   return (
-    <div className="min-h-screen bg-background relative overflow-hidden">
-      {/* Animated Background */}
-      <motion.div
-        className="fixed inset-0 z-0"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.5 }}
-      >
-        <div
-          className={`absolute inset-0 bg-gradient-to-br ${
-            resolvedTheme === 'dark'
-              ? 'from-slate-900 via-blue-900 to-slate-900'
-              : 'from-blue-50 via-white to-slate-50'
-          }`}
-        />
-        <div className="absolute inset-0 opacity-5">
-          <div className="h-full w-full" style={{
-            backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23000000' fill-opacity='0.02'%3E%3Ccircle cx='30' cy='30' r='1'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
-            backgroundSize: '60px 60px'
-          }} />
-        </div>
-      </motion.div>
+    <AnimatedBackground
+      weatherCondition={weatherConditions.condition}
+      timestamp={weatherConditions.timestamp}
+      timezone={weatherConditions.timezone}
+      sunrise={weatherConditions.sunrise}
+      sunset={weatherConditions.sunset}
+    >
 
       {/* Header */}
       <header className="relative z-10 bg-card/80 backdrop-blur-md border-b border-border sticky top-0 weather-shadow">
