@@ -207,7 +207,7 @@ export function SearchBar({
               <div className="py-1">
                 {results.map((result, index) => (
                   <motion.button
-                    key={`${result.lat}-${result.lon}`}
+                    key={`${result.name}-${result.lat}-${result.lon}-${result.country}-${index}`}
                     initial={{ opacity: 0, x: -10 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.1, delay: index * 0.02 }}
