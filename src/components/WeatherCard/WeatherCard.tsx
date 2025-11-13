@@ -58,10 +58,7 @@ export function WeatherCard({ city, weather, onRemove, onOpen, temperatureUnit }
       className="h-48 bg-card border border-border rounded-2xl overflow-hidden weather-shadow group hover:scale-[1.02] transition-transform cursor-pointer"
       layout
       whileHover={{ y: -4 }}
-      onClick={() => {
-        // TODO: Open weather modal
-        console.log('Open weather modal for', city.name);
-      }}
+      onClick={() => onOpen()}
     >
       {/* Weather Gradient Background */}
       <div className={`absolute inset-0 bg-gradient-to-br ${getWeatherGradient()} opacity-10`} />
