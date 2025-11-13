@@ -15,12 +15,17 @@ export interface GeolocationPosition {
   timestamp: number;
 }
 
-export interface GeolocationError {
+export class GeolocationError extends Error {
   code: number;
-  message: string;
-  PERMISSION_DENIED: number;
-  POSITION_UNAVAILABLE: number;
-  TIMEOUT: number;
+  PERMISSION_DENIED: number = 1;
+  POSITION_UNAVAILABLE: number = 2;
+  TIMEOUT: number = 3;
+
+  constructor(code: number, message: string) {
+    super(message);
+    this.name = 'GeolocationError';
+    this.code = code;
+  }
 }
 
 export interface LocationPermission {
