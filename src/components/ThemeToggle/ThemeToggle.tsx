@@ -115,7 +115,7 @@ export function ThemeToggle({
 
       {/* Dropdown Menu */}
       <AnimatePresence>
-        {isOpen && (
+        {isMounted && isOpen && (
           <>
             <motion.div
               initial={{ opacity: 0, y: -10, scale: 0.95 }}
