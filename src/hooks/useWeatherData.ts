@@ -366,9 +366,7 @@ export function useWeatherAlerts() {
         level = 'warning';
       } else if (temp > 35) {
         cityAlerts.push('High heat');
-        if (level !== 'warning') {
-          level = 'advisory';
-        }
+        level = 'advisory';
       } else if (temp < -20) {
         cityAlerts.push('Extreme cold');
         level = 'warning';
