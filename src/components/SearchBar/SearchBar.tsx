@@ -27,7 +27,9 @@ export function SearchBar({
   const [query, setQuery] = useState('');
   const [results, setResults] = useState<SearchCityResult[]>([]);
   const [isOpen, setIsOpen] = useState(false);
-  const [searchHistory, addToSearchHistory] = useSearchHistory();
+  const searchHistoryHook = useSearchHistory();
+  const searchHistory = searchHistoryHook.searchHistory;
+  const addToSearchHistory = searchHistoryHook.addToSearchHistory;
   const [selectedIndex, setSelectedIndex] = useState(-1);
   const inputRef = useRef<HTMLInputElement>(null);
   const debounceRef = useRef<NodeJS.Timeout>();
