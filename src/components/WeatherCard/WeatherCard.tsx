@@ -16,6 +16,7 @@ interface WeatherCardProps {
   };
   weather: CityWeather;
   onRemove: () => void;
+  onOpen: () => void;
   temperatureUnit: TemperatureUnit;
 }
 
