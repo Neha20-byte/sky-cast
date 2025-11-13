@@ -83,18 +83,18 @@ export function LocationButton({
     <div className={`relative ${className}`}>
       <motion.button
         onClick={handleDetectLocation}
-        disabled={isDetecting || !isSupported}
+        disabled={isMounted ? (isDetecting || !isSupported) : false}
         className={`flex items-center space-x-2 rounded-lg font-medium transition-all focus-ring disabled:opacity-50 disabled:cursor-not-allowed ${sizeClasses[size]} ${variantClasses[variant]}`}
-        whileHover={{ scale: isDetecting ? 1 : 1.02 }}
-        whileTap={{ scale: isDetecting ? 1 : 0.98 }}
+        whileHover={{ scale: (isMounted && isDetecting) ? 1 : 1.02 }}
+        whileTap={{ scale: (isMounted && isDetecting) ? 1 : 0.98 }}
       >
-        {isDetecting ? (
+        {isMounted && isDetecting ? (
           <Loader2 className="w-4 h-4 animate-spin" />
         ) : (
           <MapPin className="w-4 h-4" />
         )}
         <span>
-          {isDetecting
+          {isMounted && isDetecting
             ? 'Detecting...'
             : variant === 'primary'
             ? 'Use My Location'
