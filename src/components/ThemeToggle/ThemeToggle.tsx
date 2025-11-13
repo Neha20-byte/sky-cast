@@ -63,7 +63,7 @@ export function ThemeToggle({
             className="text-foreground"
           >
             {theme === 'auto' ? (
-              resolvedTheme === 'dark' ? icons.dark : icons.light
+              isMounted && resolvedTheme === 'dark' ? icons.dark : icons.light
             ) : (
               icons[theme as keyof typeof icons]
             )}
@@ -92,7 +92,7 @@ export function ThemeToggle({
             className="text-foreground"
           >
             {theme === 'auto' ? (
-              resolvedTheme === 'dark' ? icons.dark : icons.light
+              isMounted && resolvedTheme === 'dark' ? icons.dark : icons.light
             ) : (
               icons[theme as keyof typeof icons]
             )}
