@@ -42,11 +42,11 @@ export function AnimatedBackground({
       : 'clear';
 
     const tod = sunrise && sunset
-      ? getDayOrNight(timestamp, timezone, sunrise, sunset) as TimeOfDay
+      ? getDayOrNight(currentTimestamp, timezone, sunrise, sunset) as TimeOfDay
       : 'day';
 
     return { condition: cond, timeOfDay: tod };
-  }, [weatherCondition, timestamp, timezone, sunrise, sunset]);
+  }, [weatherCondition, currentTimestamp, timezone, sunrise, sunset]);
 
   // Get weather-specific background images
   const getWeatherBackground = useMemo(() => {
