@@ -109,7 +109,7 @@ export function useGeolocation(options: UseGeolocationOptions = {}): UseGeolocat
     customOptions?: GeolocationOptions
   ): Promise<UserLocation> => {
     if (!isSupported) {
-      throw new GeolocationError('NOT_SUPPORTED', 'Geolocation is not supported by this browser');
+      throw new GeolocationError(0, 'Geolocation is not supported by this browser');
     }
 
     setIsLoading(true);
@@ -144,7 +144,7 @@ export function useGeolocation(options: UseGeolocationOptions = {}): UseGeolocat
   // Watch current location
   const watchCurrentLocation = useCallback((customOptions?: GeolocationOptions) => {
     if (!isSupported) {
-      throw new GeolocationError('NOT_SUPPORTED', 'Geolocation is not supported by this browser');
+      throw new GeolocationError(0, 'Geolocation is not supported by this browser');
     }
 
     // Stop watching if already watching

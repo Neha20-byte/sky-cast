@@ -32,7 +32,7 @@ export function SearchBar({
   const addToSearchHistory = searchHistoryHook.addToSearchHistory;
   const [selectedIndex, setSelectedIndex] = useState(-1);
   const inputRef = useRef<HTMLInputElement>(null);
-  const debounceRef = useRef<NodeJS.Timeout | undefined>();
+  const debounceRef = useRef<NodeJS.Timeout | null>(null);
 
   // Focus input if autoFocus is true
   useEffect(() => {

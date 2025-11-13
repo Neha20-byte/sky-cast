@@ -221,7 +221,14 @@ export function getWeatherIcon(
   timeOfDay: TimeOfDay = 'day'
 ): string {
   const iconMap = WEATHER_ICONS[condition];
-  return iconMap ? iconMap[timeOfDay] || iconMap.day : 'Sun';
+  if (!iconMap) return 'Sun';
+
+  // Map dawn/dusk to appropriate icons
+  if (timeOfDay === 'dawn' || timeOfDay === 'dusk') {
+    return iconMap.night || iconMap.day;
+  }
+
+  return iconMap[timeOfDay] || iconMap.day;
 }
 
 // Get background theme
@@ -229,13 +236,18 @@ export function getWeatherBackground(
   condition: WeatherCondition,
   timeOfDay: TimeOfDay = 'day'
 ): string {
-  const bgMap = WEATHER_BACKGROUNDS[condition];
-  return bgMap ? bgMap[timeOfDay] || bgMap.day : 'sunny-day';
+  const bgMap = WEATHER_BACKGROUNDS[condition as keyof typeof WEATHER_BACKGROUNDS];
+  if (!bgMap) {
+    // Fallback to clear background for unknown conditions
+    const clearBg = WEATHER_BACKGROUNDS.clear;
+    return clearBg ? clearBg[timeOfDay] || clearBg.day : 'sunny-day';
+  }
+  return bgMap[timeOfDay] || bgMap.day;
 }
 
 // Get weather color palette
 export function getWeatherColors(condition: WeatherCondition) {
-  return WEATHER_COLORS[condition] || WEATHER_COLORS.clear;
+  return WEATHER_COLORS[condition as keyof typeof WEATHER_COLORS] || WEATHER_COLORS.clear;
 }
 
 // Check if it's currently day or night
@@ -417,22 +429,28 @@ export function getWeatherAlertLevel(weather: WeatherData): {
     level = 'warning';
   } else if (temp > 35) {
     alerts.push('High heat');
-    level = level === 'warning' ? 'warning' : 'advisory';
+    level = 'advisory';
   } else if (temp < -20) {
     alerts.push('Extreme cold');
     level = 'warning';
   } else if (temp < -10) {
     alerts.push('Low temperature');
-    level = level === 'warning' ? 'warning' : 'advisory';
+    level = 'advisory';
   }
 
   // Wind alerts
   if (windSpeed > 25) {
     alerts.push('Strong wind');
-    level = level === 'warning' ? 'warning' : 'watch';
+    // Upgrade to watch unless already warning
+    if (level === 'none') {
+      level = 'watch';
+    }
   } else if (windSpeed > 15) {
     alerts.push('Windy conditions');
-    level = level === 'warning' || level === 'watch' ? level : 'advisory';
+    // Upgrade to advisory unless already higher
+    if (level === 'none') {
+      level = 'advisory';
+    }
   }
 
   // Weather condition alerts
@@ -441,7 +459,10 @@ export function getWeatherAlertLevel(weather: WeatherData): {
     level = 'warning';
   } else if (condition === 'snow' && temp < 0) {
     alerts.push('Snow conditions');
-    level = level === 'warning' ? 'warning' : 'advisory';
+    // Upgrade to advisory unless already higher
+    if (level === 'none') {
+      level = 'advisory';
+    }
   }
 
   return { level, conditions: alerts };

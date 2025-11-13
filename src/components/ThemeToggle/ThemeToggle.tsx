@@ -1,7 +1,7 @@
 // Theme Toggle Component
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Sun, Moon, Monitor } from 'lucide-react';
 import { useTheme } from '@/hooks';
@@ -19,6 +19,12 @@ export function ThemeToggle({
 }: ThemeToggleProps) {
   const { theme, resolvedTheme, setTheme, toggleTheme } = useTheme();
   const [isOpen, setIsOpen] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
+
+  // Prevent hydration mismatch
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   const sizeClasses = {
     sm: 'w-8 h-8',
@@ -39,6 +45,15 @@ export function ThemeToggle({
   ];
 
   if (variant === 'button') {
+    // Don't render anything until mounted to prevent hydration mismatch
+    if (!isMounted) {
+      return (
+        <div className={`${sizeClasses[size]} rounded-lg bg-card border border-border flex items-center justify-center ${className}`}>
+          <div className="w-4 h-4" />
+        </div>
+      );
+    }
+
     return (
       <motion.button
         onClick={toggleTheme}
@@ -78,17 +93,21 @@ export function ThemeToggle({
       >
         <AnimatePresence mode="wait">
           <motion.div
-            key={theme}
+            key={isMounted ? theme : 'placeholder'}
             initial={{ rotate: -180, opacity: 0 }}
             animate={{ rotate: 0, opacity: 1 }}
             exit={{ rotate: 180, opacity: 0 }}
             transition={{ duration: 0.3 }}
             className="text-foreground"
           >
-            {theme === 'auto' ? (
-              resolvedTheme === 'dark' ? icons.dark : icons.light
+            {isMounted ? (
+              theme === 'auto' ? (
+                resolvedTheme === 'dark' ? icons.dark : icons.light
+              ) : (
+                icons[theme as keyof typeof icons]
+              )
             ) : (
-              icons[theme as keyof typeof icons]
+              <div className="w-4 h-4" />
             )}
           </motion.div>
         </AnimatePresence>
@@ -96,7 +115,7 @@ export function ThemeToggle({
 
       {/* Dropdown Menu */}
       <AnimatePresence>
-        {isOpen && (
+        {isMounted && isOpen && (
           <>
             <motion.div
               initial={{ opacity: 0, y: -10, scale: 0.95 }}

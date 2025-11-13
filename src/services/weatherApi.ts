@@ -261,16 +261,16 @@ class WeatherAPIService {
   }
 
   // Get AQI level and color
-  private getAQILevel(aqi: number): { level: string; color: string } {
+  private getAQILevel(aqi: number): { level: 'Good' | 'Fair' | 'Moderate' | 'Poor' | 'Very Poor' | 'Hazardous'; color: string } {
     const levels = {
-      1: { level: 'Good', color: '#00E400' },
-      2: { level: 'Fair', color: '#FFFF00' },
-      3: { level: 'Moderate', color: '#FF7E00' },
-      4: { level: 'Poor', color: '#FF0000' },
-      5: { level: 'Very Poor', color: '#8F3F97' },
+      1: { level: 'Good' as const, color: '#00E400' },
+      2: { level: 'Fair' as const, color: '#FFFF00' },
+      3: { level: 'Moderate' as const, color: '#FF7E00' },
+      4: { level: 'Poor' as const, color: '#FF0000' },
+      5: { level: 'Very Poor' as const, color: '#8F3F97' },
     };
 
-    return levels[aqi as keyof typeof levels] || { level: 'Hazardous', color: '#7E0023' };
+    return levels[aqi as keyof typeof levels] || { level: 'Hazardous' as const, color: '#7E0023' };
   }
 
   // Process hourly forecast for charts

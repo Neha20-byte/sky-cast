@@ -17,12 +17,20 @@ interface AnimatedBackgroundProps {
 
 export function AnimatedBackground({
   weatherCondition,
-  timestamp = Date.now() / 1000,
+  timestamp,
   timezone = 0,
   sunrise,
   sunset,
   children,
 }: AnimatedBackgroundProps) {
+  // Use provided timestamp or generate a stable one for SSR
+  const [currentTimestamp, setCurrentTimestamp] = useState(timestamp || 0);
+
+  useEffect(() => {
+    if (!timestamp) {
+      setCurrentTimestamp(Date.now() / 1000);
+    }
+  }, [timestamp]);
   const [currentWeatherImage, setCurrentWeatherImage] = useState<string>('/weather-images/default.jpg');
   const [imageLoaded, setImageLoaded] = useState(false);
   const [isTransitioning, setIsTransitioning] = useState(false);
@@ -34,11 +42,11 @@ export function AnimatedBackground({
       : 'clear';
 
     const tod = sunrise && sunset
-      ? getDayOrNight(timestamp, timezone, sunrise, sunset) as TimeOfDay
+      ? getDayOrNight(currentTimestamp, timezone, sunrise, sunset) as TimeOfDay
       : 'day';
 
     return { condition: cond, timeOfDay: tod };
-  }, [weatherCondition, timestamp, timezone, sunrise, sunset]);
+  }, [weatherCondition, currentTimestamp, timezone, sunrise, sunset]);
 
   // Get weather-specific background images
   const getWeatherBackground = useMemo(() => {
