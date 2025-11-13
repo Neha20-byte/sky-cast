@@ -9,6 +9,8 @@ import { SearchBar } from '../SearchBar';
 import { LocationButton } from '../LocationButton';
 import { ThemeToggle } from '../ThemeToggle';
 import { WeatherCard } from '../WeatherCard';
+import { WeatherModal } from '../WeatherModal';
+import { AnimatedBackground } from '../AnimatedBackground';
 import { LoadingStates } from '../LoadingStates';
 
 export function WeatherApp() {
