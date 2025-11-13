@@ -429,17 +429,13 @@ export function getWeatherAlertLevel(weather: WeatherData): {
     level = 'warning';
   } else if (temp > 35) {
     alerts.push('High heat');
-    if (level !== 'warning') {
-      level = 'advisory';
-    }
+    level = 'advisory';
   } else if (temp < -20) {
     alerts.push('Extreme cold');
     level = 'warning';
   } else if (temp < -10) {
     alerts.push('Low temperature');
-    if (level !== 'warning') {
-      level = 'advisory';
-    }
+    level = 'advisory';
   }
 
   // Wind alerts
