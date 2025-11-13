@@ -45,6 +45,15 @@ export function ThemeToggle({
   ];
 
   if (variant === 'button') {
+    // Don't render anything until mounted to prevent hydration mismatch
+    if (!isMounted) {
+      return (
+        <div className={`${sizeClasses[size]} rounded-lg bg-card border border-border flex items-center justify-center ${className}`}>
+          <div className="w-4 h-4" />
+        </div>
+      );
+    }
+
     return (
       <motion.button
         onClick={toggleTheme}
@@ -63,7 +72,7 @@ export function ThemeToggle({
             className="text-foreground"
           >
             {theme === 'auto' ? (
-              isMounted && resolvedTheme === 'dark' ? icons.dark : icons.light
+              resolvedTheme === 'dark' ? icons.dark : icons.light
             ) : (
               icons[theme as keyof typeof icons]
             )}
