@@ -225,6 +225,7 @@ export function WeatherApp() {
                           city={city}
                           weather={weather}
                           onRemove={() => handleRemoveCity(city.id)}
+                          onOpen={() => setSelectedCity(city.id)}
                           temperatureUnit={settings.temperatureUnit}
                         />
                       ) : (
