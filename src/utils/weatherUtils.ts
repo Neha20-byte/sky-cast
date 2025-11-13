@@ -429,22 +429,34 @@ export function getWeatherAlertLevel(weather: WeatherData): {
     level = 'warning';
   } else if (temp > 35) {
     alerts.push('High heat');
-    level = level === 'warning' ? 'warning' : 'advisory';
+    if (level !== 'warning') {
+      level = 'advisory';
+    }
   } else if (temp < -20) {
     alerts.push('Extreme cold');
     level = 'warning';
   } else if (temp < -10) {
     alerts.push('Low temperature');
-    level = level === 'warning' ? 'warning' : 'advisory';
+    if (level !== 'warning') {
+      level = 'advisory';
+    }
   }
 
   // Wind alerts
   if (windSpeed > 25) {
     alerts.push('Strong wind');
-    level = level === 'warning' ? 'warning' : 'watch';
+    if (level === 'warning') {
+      // keep warning
+    } else {
+      level = 'watch';
+    }
   } else if (windSpeed > 15) {
     alerts.push('Windy conditions');
-    level = level === 'warning' || level === 'watch' ? level : 'advisory';
+    if (level === 'warning' || level === 'watch') {
+      // keep current level
+    } else {
+      level = 'advisory';
+    }
   }
 
   // Weather condition alerts
@@ -453,7 +465,9 @@ export function getWeatherAlertLevel(weather: WeatherData): {
     level = 'warning';
   } else if (condition === 'snow' && temp < 0) {
     alerts.push('Snow conditions');
-    level = level === 'warning' ? 'warning' : 'advisory';
+    if (level !== 'warning') {
+      level = 'advisory';
+    }
   }
 
   return { level, conditions: alerts };
