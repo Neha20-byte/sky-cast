@@ -310,6 +310,19 @@ export function WeatherApp() {
           </motion.div>
         )}
       </AnimatePresence>
-    </div>
+
+      {/* Weather Modal */}
+      <AnimatePresence>
+        {selectedCity && (
+          <WeatherModal
+            isOpen={!!selectedCity}
+            onClose={() => setSelectedCity(null)}
+            cityWeather={cityWeather.get(selectedCity)!}
+            temperatureUnit={settings.temperatureUnit}
+            onRefresh={() => fetchWeatherForCity(selectedCity, cityWeather.get(selectedCity)!.city.coordinates)}
+          />
+        )}
+      </AnimatePresence>
+    </AnimatedBackground>
   );
 }
