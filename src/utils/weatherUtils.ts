@@ -236,8 +236,13 @@ export function getWeatherBackground(
   condition: WeatherCondition,
   timeOfDay: TimeOfDay = 'day'
 ): string {
-  const bgMap = WEATHER_BACKGROUNDS[condition];
-  return bgMap ? bgMap[timeOfDay] || bgMap.day : 'sunny-day';
+  const bgMap = WEATHER_BACKGROUNDS[condition as keyof typeof WEATHER_BACKGROUNDS];
+  if (!bgMap) {
+    // Fallback to clear background for unknown conditions
+    const clearBg = WEATHER_BACKGROUNDS.clear;
+    return clearBg ? clearBg[timeOfDay] || clearBg.day : 'sunny-day';
+  }
+  return bgMap[timeOfDay] || bgMap.day;
 }
 
 // Get weather color palette
