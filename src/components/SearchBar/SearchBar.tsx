@@ -239,7 +239,7 @@ export function SearchBar({
                 <div className="px-4 py-2 text-xs font-medium text-muted-foreground uppercase tracking-wider">
                   Recent Searches
                 </div>
-                {recentSearches.map((search, index) => (
+                {recentSearches.map((search: any, index: number) => (
                   <motion.button
                     key={`${search.query}-${search.timestamp}`}
                     initial={{ opacity: 0, x: -10 }}
