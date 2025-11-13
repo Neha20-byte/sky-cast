@@ -241,10 +241,16 @@ export interface SearchCityResult {
 }
 
 // Error types
-export interface WeatherError {
+export class WeatherError extends Error {
   code: string;
-  message: string;
   status?: number;
+
+  constructor(code: string, message: string, status?: number) {
+    super(message);
+    this.name = 'WeatherError';
+    this.code = code;
+    this.status = status;
+  }
 }
 
 // Loading states
