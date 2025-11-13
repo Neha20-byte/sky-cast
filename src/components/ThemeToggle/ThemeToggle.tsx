@@ -93,17 +93,21 @@ export function ThemeToggle({
       >
         <AnimatePresence mode="wait">
           <motion.div
-            key={theme}
+            key={isMounted ? theme : 'placeholder'}
             initial={{ rotate: -180, opacity: 0 }}
             animate={{ rotate: 0, opacity: 1 }}
             exit={{ rotate: 180, opacity: 0 }}
             transition={{ duration: 0.3 }}
             className="text-foreground"
           >
-            {theme === 'auto' ? (
-              isMounted && resolvedTheme === 'dark' ? icons.dark : icons.light
+            {isMounted ? (
+              theme === 'auto' ? (
+                resolvedTheme === 'dark' ? icons.dark : icons.light
+              ) : (
+                icons[theme as keyof typeof icons]
+              )
             ) : (
-              icons[theme as keyof typeof icons]
+              <div className="w-4 h-4" />
             )}
           </motion.div>
         </AnimatePresence>
