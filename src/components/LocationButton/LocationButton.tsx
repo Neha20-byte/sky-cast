@@ -1,7 +1,7 @@
 // Location Detection Button Component
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { MapPin, Loader2 } from 'lucide-react';
 import { useLocationFeatures } from '@/hooks';
@@ -23,6 +23,12 @@ export function LocationButton({
   const { cities, addCity } = useCities();
   const { fetchWeatherForCity } = useWeatherData();
   const [error, setError] = useState<string | null>(null);
+  const [isMounted, setIsMounted] = useState(false);
+
+  // Prevent hydration mismatch
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   const sizeClasses = {
     sm: 'px-3 py-1.5 text-sm',
