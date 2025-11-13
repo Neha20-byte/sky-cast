@@ -21,6 +21,7 @@ export function WeatherApp() {
   const [searchQuery, setSearchQuery] = useState('');
   const [isSearching, setIsSearching] = useState(false);
   const [showAddCity, setShowAddCity] = useState(false);
+  const [selectedCity, setSelectedCity] = useState<string | null>(null);
 
   // Fetch weather for all cities on mount and when cities change
   useEffect(() => {
