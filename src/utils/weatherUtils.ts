@@ -221,7 +221,14 @@ export function getWeatherIcon(
   timeOfDay: TimeOfDay = 'day'
 ): string {
   const iconMap = WEATHER_ICONS[condition];
-  return iconMap ? iconMap[timeOfDay] || iconMap.day : 'Sun';
+  if (!iconMap) return 'Sun';
+
+  // Map dawn/dusk to appropriate icons
+  if (timeOfDay === 'dawn' || timeOfDay === 'dusk') {
+    return iconMap.night || iconMap.day;
+  }
+
+  return iconMap[timeOfDay] || iconMap.day;
 }
 
 // Get background theme
