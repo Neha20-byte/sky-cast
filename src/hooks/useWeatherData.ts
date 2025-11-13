@@ -114,7 +114,8 @@ export function useWeatherData(options: UseWeatherDataOptions = {}): UseWeatherD
       }
 
       // Fetch fresh data from API
-      const weatherData = await weatherAPI.getCompleteCityWeather(coordinates, units);
+      const apiUnits = units === 'fahrenheit' ? 'imperial' : 'metric';
+      const weatherData = await weatherAPI.getCompleteCityWeather(coordinates, apiUnits);
 
       // Cache the data
       if (enableCache) {
