@@ -247,7 +247,7 @@ export function getWeatherBackground(
 
 // Get weather color palette
 export function getWeatherColors(condition: WeatherCondition) {
-  return WEATHER_COLORS[condition] || WEATHER_COLORS.clear;
+  return WEATHER_COLORS[condition as keyof typeof WEATHER_COLORS] || WEATHER_COLORS.clear;
 }
 
 // Check if it's currently day or night
