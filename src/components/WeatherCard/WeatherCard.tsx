@@ -20,7 +20,7 @@ interface WeatherCardProps {
   temperatureUnit: TemperatureUnit;
 }
 
-export function WeatherCard({ city, weather, onRemove, temperatureUnit }: WeatherCardProps) {
+export function WeatherCard({ city, weather, onRemove, onOpen, temperatureUnit }: WeatherCardProps) {
   const current = weather.current;
   const condition = current.weather[0];
   const timeOfDay = getDayOrNight(
